@@ -54,13 +54,13 @@ public class TabUsuBean {
                     ResultSet rs2 = null;
                     
                     Conectar.stam = Conectar.con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                    rs2 = Conectar.stam.executeQuery("SELECT * FROM TABMENU WHERE CODSIS = "+rs.getString("CODSIS")+" ");
+                    rs2 = Conectar.stam.executeQuery("SELECT * FROM MENUITEM WHERE CODSIS = "+rs.getString("CODSIS")+" ");
                     
                     while(rs2.next()){
                         
-                        String titulo = rs2.getString("DESCRICAO");
+                        String label = rs2.getString("DESCRICAO");
                         
-                        DefaultMenuItem item = new DefaultMenuItem(titulo);
+                        DefaultMenuItem item = new DefaultMenuItem(label);
                         menuBean.menubar.addElement(item);
                     }
                     
