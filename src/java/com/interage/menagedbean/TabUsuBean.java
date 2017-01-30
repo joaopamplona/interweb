@@ -58,9 +58,9 @@ public class TabUsuBean {
                     
                     while(rs2.next()){
                         
-                        String label2 = rs2.getString("DESCRICAO");
+                        String label3 = rs2.getString("DESCRICAO");
                         
-                        DefaultMenuItem item = new DefaultMenuItem(label2);
+                        DefaultMenuItem item = new DefaultMenuItem(label3);
                         menuBean.menubar.addElement(item);
                     }
                     
