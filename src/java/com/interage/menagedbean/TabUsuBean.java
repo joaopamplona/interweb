@@ -58,6 +58,7 @@ public class TabUsuBean {
                     
                     while(rs2.next()){
                         
+                        
                         String label = rs2.getString("DESCRICAO");
                         
                         DefaultMenuItem item = new DefaultMenuItem(label);
