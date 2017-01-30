@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuModel;
+import org.primefaces.model.menu.*;
 
 @ManagedBean(name = "TabUsuBean")
 public class TabUsuBean {
@@ -41,8 +39,6 @@ public class TabUsuBean {
             Conectar.result = Conectar.stam.executeQuery("select * from TABUSU where ((RGEVENTO <> '3') or (RGEVENTO IS NULL)) "
                     + "and (NOME = '" + tabusu.getNome() + "') order by SISTEMA");
             
-            
-            
             while (Conectar.result.next()) {
                 
                 //Resultset temporario
@@ -52,41 +48,20 @@ public class TabUsuBean {
                 */
                 Conectar.stam = Conectar.con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, ResultSet.HOLD_CURSORS_OVER_COMMIT);
                 rs = Conectar.stam.executeQuery("SELECT * FROM TABSIS WHERE CODSIS = "+ Conectar.result.getString("SISTEMA") +" ");
-                
-                
+                 
                 while(rs.next()){
-                    if(rs.getString("CODSIS").equals("1")){
-                        DefaultSubMenu estoque = new DefaultSubMenu("Estoque");
-                        menuBean.menubar.addElement(estoque);
+                    
+                    ResultSet rs2 = null;
+                    
+                    Conectar.stam = Conectar.con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                    rs2 = Conectar.stam.executeQuery("SELECT * FROM TABMENU WHERE CODSIS = "+rs.getString("CODSIS")+" ");
+                    
+                    while(rs2.next()){
                         
-                    }else if(rs.getString("CODSIS").equals("2")){
-                        DefaultSubMenu financeiro = new DefaultSubMenu("Financeiro");
-                        menuBean.menubar.addElement(financeiro);
-                        /*
-                        item.setValue("Financeiro");
-                        menu.getChildren().add(item);
-                        */
-                    }else if(rs.getString("CODSIS").equals("3")){
-                        DefaultSubMenu fluxo = new DefaultSubMenu("Fluxo de Caixa");
-                        menuBean.menubar.addElement(fluxo);
-                        /*
-                        item.setValue("Fluxo de Caixa");
-                        menu.getChildren().add(item);
-                        */
-                    }else if(rs.getString("CODSIS").equals("6")){
-                        DefaultSubMenu frente = new DefaultSubMenu("Frente de Loja");
-                        menuBean.menubar.addElement(frente);
-                        /*
-                        item.setValue("Frente de Loja");
-                        menu.getChildren().add(item);
-                        */
-                    }else if(rs.getString("CODSIS").equals("10")){
-                        DefaultSubMenu usuario = new DefaultSubMenu("Usuários");
-                        menuBean.menubar.addElement(usuario);
-                        /*
-                        item.setValue("Usuários");
-                        menu.getChildren().add(item);
-                        */
+                        String titulo = rs2.getString("DESCRICAO");
+                        
+                        DefaultMenuItem item = new DefaultMenuItem(titulo);
+                        menuBean.menubar.addElement(item);
                     }
                     
                 }
