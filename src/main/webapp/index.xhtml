@@ -7,13 +7,12 @@
 
     <h:head>
         <title>Login</title>
-        <link rel="stylesheet" type="text/css" href="styles/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="styles/estilo.css"/>
     </h:head> 
-
-
+    
     <h:body>
         <h:form id="frmlogin">
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
             <div id="msg1">
                 Seja Bem vindo
             </div><br/>
@@ -22,26 +21,25 @@
                 o sistema.
             </div><br/>
             <h:panelGrid id="idpnllogin" class="panelGridCenter" columns="2" cellpadding="5">
-                <h:outputLabel for="username" value="Username:" />
-                <p:inputText id="username" value="#{TabUsuBean.tabusu.nome}" required="true" label="username" onkeyup="this.value = this.value.toString().toUpperCase();"/>
+                <h:outputLabel for="username" value="Username:"/>
+                <p:inputText id="username" value="#{TabUsuBean.usuario.nome}" required="true" label="username" onkeyup="this.value = this.value.toString().toUpperCase();"/>
 
-                <h:outputLabel for="password" value="Password:" />
-                <p:password id="password" value="#{TabUsuBean.tabusu.senha}" required="true" label="password" />
+                <h:outputLabel for="password" value="Password:"/>
+                <p:password id="password" value="#{TabUsuBean.usuario.senha}" required="true" label="password"/>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl" action="#{TabUsuBean.LogarUsuario(TabUsuBean.tabusu)}" />
+                    <p:commandButton value="Login" update="growl" action="#{TabUsuBean.LogarUsuario(TabUsuBean.usuario)}"/>
                 </f:facet>
             </h:panelGrid>
 
             <div id="divimg">
-                <f:view >
-                    <p:graphicImage id="grpimglogin" class="imglogin" value="imagens/Logo menor.png" width="150" height="150" />
+                <f:view>
+                    <p:graphicImage id="grpimglogin" class="imglogin" value="imagens/Logo menor.png" width="150" height="150"/>
                 </f:view>
             </div>
 
         </h:form>
     </h:body>
-
-
+    
 </html>
 
