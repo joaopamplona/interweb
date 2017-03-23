@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>InterWeb - Cadastro de Veículo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div id="page">
+
+            <div id="header">
+                <h:form>
+                    <p:menubar id="MenuPrincipal" model="#{MenuBarBean.menubar}" >
+                    </p:menubar>
+                </h:form>
+
+            </div>
+
+            <div id="content">
+                <h:form id="formVeic">
+                    <p:panel header="Cadastro de Veiculos" style="text-align: center;">
+
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel value="Pesquisar por:"/>
+
+                            <p:selectOneMenu style="margin: 0;padding: 0">
+                                <f:selectItem itemLabel="Código" itemValue="c"/>
+                                <f:selectItem itemLabel="Placa" itemValue="p"/>
+                            </p:selectOneMenu>
+
+                            <p:inputText id="txtPesquisa" placeholder="Pesquisar" />
+
+                        </h:panelGrid>
+
+                        <p:dataTable value="#{TabVeicBean.veiculos}" var="veic" id="gridVeic" rowKey="#{veic.codveic}" selection="#{TabVeicBean.veiculoSelecionado}"
+                                     rows="15" paginator="true" scrollable="true" resizableColumns="true" scrollHeight="250" paginatorPosition="bottom"
+                                     emptyMessage="Não há veículo cadastrado no sistemas." selectionMode="single" >
+
+                            <p:ajax event="rowSelect" update="formVeic:btEditar"/>
+                            <p:ajax event="rowSelect" update="formVeic:btExcluir"/>
+                                     
+                            <p:column headerText="Código" width="80">
+                                <p:outputLabel value="#{veic.codveic}"/>
+                            </p:column>
+
+                            <p:column headerText="Placa">
+                                <p:outputLabel value="#{veic.placa}"/>
+                            </p:column>
+
+                            <p:column headerText="Marca">
+                                <p:outputLabel value="#{veic.marca}"/>
+                            </p:column>
+
+                            <p:column headerText="Modelo">
+                                <p:outputLabel value="#{veic.modelo}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        
+                        <div align="center">
+                            <h:panelGrid columns="3" cellpadding="3">
+                                <p:commandButton value="Inserir" action="#{TabVeicBean.inserir()}" update=":formEdit" oncomplete="PF('dlgInserir').show();"/>
+
+                                <p:commandButton id="btEditar" action="#{TabVeicBean.alterar()}" update=":formEdit" 
+                                                 value="Editar" oncomplete="PF('dlgInserir').show();" disabled="#{TabVeicBean.veiculoSelecionado.codveic eq null}"/>
+                                
+                                <p:commandButton id="btExcluir" value="Excluir" onclick="PF('confirmacao').show()" action="#{TabVeicBean.excluir()}" 
+                                                 disabled="#{TabVeicBean.veiculoSelecionado.codveic eq null}">
+                                    
+                                    <!--<p:confirm header="Confirmação" message="Deseja realmente excluir o veículo selecionado?" icon="ui-icon-alert"/>-->
+                                    
+                                    <p:confirmDialog widgetVar="confirmacao" message="Deseja realmente excluir o veículo selecionado?" showEffect="fade">
+                                            
+                                        <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes" ajax="true" action="#{TabVeicBean.gravar()}" update="@all" oncomplete="PF('confirmacao').hide();"/>
+                                        <p:commandButton value="Não" styleClass="ui-confirmdialog-no" onclick="PF('confirmacao').hide();" />
+                                        
+                                    </p:confirmDialog>
+                                </p:commandButton>
+                                
+                            </h:panelGrid>
+                           
+                        </div>
+
+                    </p:panel>
+                    
+                </h:form>
+            </div>
+
+            <div id="footer">
+
+            </div>
+            
+            <p:dialog modal="true" widgetVar="dlgInserir" width="1200" height="400" 
+                      resizable="true" closable="true" closeOnEscape="true" >
+                <p:ajax event="close" update="@all"/>
+                
+                <h:form id="formEdit">
+                    
+                    <p:messages autoUpdate="true" closable="true"/>
+                    
+                    <h:panelGrid columns="6" cellpadding="3" >
+
+                        <p:outputLabel value="Codigo:"/>
+                        <p:inputText id="txtCodigo" value="#{TabVeicBean.tabveic.codveic}" style="background: #FFFFCC" readonly="true"/>
+
+                        <p:outputLabel value="Placa:"/>
+                        <p:inputText id="txtPlaca" value="#{TabVeicBean.tabveic.placa}" required="true" requiredMessage="Placa não preenchida!"/>
+
+                        <p:outputLabel value="Modelo:"/>
+                        <p:inputText id="txtModelo" value="#{TabVeicBean.tabveic.modelo}" required="true" requiredMessage="Modelo não preenchido!"/>
+
+                        <p:outputLabel value="Marca:"/>
+                        <p:inputText id="txtMarca" value="#{TabVeicBean.tabveic.marca}" required="true" requiredMessage="Marca não preenchida!"/>
+                        
+                        <p:outputLabel value="Ano:"/>
+                        <p:inputText id="txtAno" maxlength="4" value="#{TabVeicBean.tabveic.ano}" required="true" requiredMessage="Ano não preenchido!"/>
+                        
+                        <p:outputLabel value="Cor:"/>
+                        <p:inputText id="txtCor" value="#{TabVeicBean.tabveic.cor}" required="true" requiredMessage="Cor não preenchida!"/>
+                        
+                        <p:outputLabel value="Cidade:"/>
+                        <p:inputText id="txtCidade" value="#{TabVeicBean.tabveic.cidade}" required="true" requiredMessage="Cidade não preenchida!"/>
+                        
+                        <p:outputLabel value="Peso Suportado:"/>
+                        <p:inputText id="txtPesoSup" value="#{TabVeicBean.tabveic.pesoveic}" required="true" requiredMessage="Peso não preenchida!"/>
+                        
+                        <p:outputLabel value="Kilometragem Inicial:"/>
+                        <p:inputText id="txtKilIni" value="#{TabVeicBean.tabveic.kilomini}"/>
+                        
+                        <p:outputLabel value="Kilometragem Final:"/>
+                        <p:inputText id="txtKilFim" value="#{TabVeicBean.tabveic.kilomfim}"/>
+                        
+                        <p:outputLabel value="Kilometros por litro:"/>
+                        <p:inputText id="txtKilLit" value="#{TabVeicBean.tabveic.kilocomb}"/>
+                        
+                        <p:outputLabel value="Tipo de Carroceria:"/>
+                        <p:selectOneMenu id="cmbbxTpCar" style="margin: 0;padding: 0">
+                                <f:selectItem itemLabel="Não Aplicável" itemValue="00"/>
+                                <f:selectItem itemLabel="Aberta" itemValue="01"/>
+                                <f:selectItem itemLabel="Fechada/Baú" itemValue="02"/>
+                                <f:selectItem itemLabel="Granelera" itemValue="03"/>
+                                <f:selectItem itemLabel="Porta Contêiner" itemValue="04"/>
+                                <f:selectItem itemLabel="Sider" itemValue="05"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Tipo Rodado:"/>
+                        <p:selectOneMenu id="cmbbxTpRod" style="margin: 0;padding: 0;">
+                                <f:selectItem itemLabel="Truck" itemValue="01"/>
+                                <f:selectItem itemLabel="Toco" itemValue="02"/>
+                                <f:selectItem itemLabel="Cavalo Mecânico" itemValue="03"/>
+                                <f:selectItem itemLabel="VAN" itemValue="04"/>
+                                <f:selectItem itemLabel="Utilitários" itemValue="05"/>
+                                <f:selectItem itemLabel="Outros" itemValue="06"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Renavam:"/>
+                        <p:inputText id="txtRenavam" value="#{TabVeicBean.tabveic.renavam}"/>
+                        
+                        <p:outputLabel value="Tara KG:"/>
+                        <p:inputText id="txtTara" type="number" value="#{TabVeicBean.tabveic.tara}"/>
+                        
+                        <p:outputLabel value="Capacidade(MG):"/>
+                        <p:inputText id="txtCapM3" value="#{TabVeicBean.tabveic.capacidadeM3}"/>
+                        
+                    </h:panelGrid>
+                    
+                    <p:commandButton value="Gravar" action="#{TabVeicBean.gravar()}" oncomplete="PF('dlgInserir').hide();"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgInserir').hide();"/>
+                    
+                </h:form>
+                
+            </p:dialog>
+            
+        </div>
+    </h:body>
+</html>
