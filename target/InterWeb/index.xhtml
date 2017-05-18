@@ -22,7 +22,7 @@
             </div><br/>
             <h:panelGrid id="idpnllogin" class="panelGridCenter" columns="2" cellpadding="5">
                 <h:outputLabel for="username" value="Username:"/>
-                <p:inputText id="username" value="#{TabUsuBean.usuario.nome}" required="true" label="username" onkeyup="this.value = this.value.toString().toUpperCase();"/>
+                <p:inputText id="username" value="#{TabUsuBean.usuario.nome}" required="true" label="username" onfocus="#{TabUsuBean.LogarUsuario(TabUsuBean.usuario)}" onkeyup="this.value = this.value.toString().toUpperCase();"/>
 
                 <h:outputLabel for="password" value="Password:"/>
                 <p:password id="password" value="#{TabUsuBean.usuario.senha}" required="true" label="password"/>
