@@ -77,14 +77,14 @@ public class TabUsuBean {
                                 for (Menuitem menuitem : resultMenuitem) {
                                     String label = menuitem.getDescricao();
                                     DefaultSubMenu item = new DefaultSubMenu(label);
-                                    if(label.equals("Cadastros")){
+                                    //if(label.equals("Cadastros")){
                                         DefaultMenuItem subitem = new DefaultMenuItem("Veículos");
                                         subitem.setUrl("cadastro_veiculo.xhtml?faces-redirect=true");
 
                                         item.setId("SubMenuCadastros");
                                         item.addElement(subitem);
 
-                                    }
+                                    //}
 
 
                                     menuBar.getMenubar().addElement(item);
